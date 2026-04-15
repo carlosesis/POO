@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // CONFIGURACIÓN
+        System.out.print("Tipo de nave (exploracion/carga): ");
+        String tipo = sc.nextLine();
+
+        Nave nave = NaveFactory.crearNave(tipo, "Stellaris-1");
+        nave.iniciar();
+
+        RegistroEventos.getInstancia().registrar("Nave creada");
+
+        // PREPARACIÓN
+        SistemaExterno sistemaExterno = new SistemaExterno();
+        SistemaNave adaptador = new AdaptadorSistema(sistemaExterno);
+        adaptador.activar();
+
+        RegistroEventos.getInstancia().registrar("Sistema adaptado");
+
+        // OBSERVER
+        CentroControl control = new CentroControl();
+        NaveObserver obs = new NaveObserver("Stellaris-1");
+        control.agregarObservador(obs);
+
+        // SIMULACIÓN (STATE)
+        Mision mision = new Mision();
+
+        for (int i = 0; i < 3; i++) {
+            mision.avanzar();
+            control.notificar("Cambio de estado en misión");
+            RegistroEventos.getInstancia().registrar("Estado actualizado");
+        }
+
+        // REPORTE
+        RegistroEventos.getInstancia().mostrarReporte();
+    }
+}
