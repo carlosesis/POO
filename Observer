@@ -1,0 +1,35 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Observer
+interface Observador {
+    void actualizar(String mensaje);
+}
+
+// Sujeto
+class CentroControl {
+    private List<Observador> observadores = new ArrayList<>();
+
+    public void agregarObservador(Observador obs) {
+        observadores.add(obs);
+    }
+
+    public void notificar(String mensaje) {
+        for (Observador o : observadores) {
+            o.actualizar(mensaje);
+        }
+    }
+}
+
+// Observador concreto
+class NaveObserver implements Observador {
+    private String nombre;
+
+    public NaveObserver(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void actualizar(String mensaje) {
+        System.out.println(nombre + " recibe: " + mensaje);
+    }
+}
