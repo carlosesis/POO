@@ -1,0 +1,42 @@
+// Estado
+interface EstadoMision {
+    void ejecutar(Mision mision);
+}
+
+// Estados concretos
+class EstadoPreparacion implements EstadoMision {
+    public void ejecutar(Mision mision) {
+        System.out.println("Preparando misión...");
+        mision.setEstado(new EstadoSimulacion());
+    }
+}
+
+class EstadoSimulacion implements EstadoMision {
+    public void ejecutar(Mision mision) {
+        System.out.println("Misión en ejecución...");
+        mision.setEstado(new EstadoFinalizado());
+    }
+}
+
+class EstadoFinalizado implements EstadoMision {
+    public void ejecutar(Mision mision) {
+        System.out.println("Misión finalizada.");
+    }
+}
+
+// Contexto
+class Mision {
+    private EstadoMision estado;
+
+    public Mision() {
+        estado = new EstadoPreparacion();
+    }
+
+    public void setEstado(EstadoMision estado) {
+        this.estado = estado;
+    }
+
+    public void avanzar() {
+        estado.ejecutar(this);
+    }
+}
