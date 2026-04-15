@@ -1,0 +1,25 @@
+// Sistema externo (incompatible)
+class SistemaExterno {
+    public void activarSistemaViejo() {
+        System.out.println("Sistema externo activado");
+    }
+}
+
+// Interfaz esperada
+interface SistemaNave {
+    void activar();
+}
+
+// Adapter
+class AdaptadorSistema implements SistemaNave {
+    private SistemaExterno sistema;
+
+    public AdaptadorSistema(SistemaExterno sistema) {
+        this.sistema = sistema;
+    }
+
+    @Override
+    public void activar() {
+        sistema.activarSistemaViejo();
+    }
+}
