@@ -1,0 +1,47 @@
+// Producto
+abstract class Nave {
+    protected String nombre;
+
+    public Nave(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public abstract void iniciar();
+}
+
+// Productos concretos
+class NaveExploracion extends Nave {
+    public NaveExploracion(String nombre) {
+        super(nombre);
+    }
+
+    @Override
+    public void iniciar() {
+        System.out.println("Nave de exploración lista: " + nombre);
+    }
+}
+
+class NaveCarga extends Nave {
+    public NaveCarga(String nombre) {
+        super(nombre);
+    }
+
+    @Override
+    public void iniciar() {
+        System.out.println("Nave de carga lista: " + nombre);
+    }
+}
+
+// Factory
+class NaveFactory {
+    public static Nave crearNave(String tipo, String nombre) {
+        switch (tipo.toLowerCase()) {
+            case "exploracion":
+                return new NaveExploracion(nombre);
+            case "carga":
+                return new NaveCarga(nombre);
+            default:
+                throw new IllegalArgumentException("Tipo desconocido");
+        }
+    }
+}
